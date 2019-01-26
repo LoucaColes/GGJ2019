@@ -6,6 +6,7 @@ public class Campfire : Placeable
 {
     #region Variables
 
+
     #endregion
 
     #region Unity Events
@@ -14,4 +15,14 @@ public class Campfire : Placeable
 
     }
     #endregion
+
+    void CanRespawn()
+    {
+
+    }
+
+    public void SetDead()
+    {
+        Debug.Log("Fire is Dead");
+    }
 }
