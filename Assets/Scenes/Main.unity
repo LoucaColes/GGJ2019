@@ -801,7 +801,7 @@ Animator:
   m_GameObject: {fileID: 532373661}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a8c5bf99747624c239499c96c3eac035, type: 2}
+  m_Controller: {fileID: 9100000, guid: 10957840095da4566b2bbb8fcc0caf0d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -826,7 +826,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 189651819}
   sprites:
   - {fileID: 21300000, guid: a4d6548ee204ff742a553bc16fa07676, type: 3}
-  - {fileID: 21300000, guid: 539c865fd14674120b79dcf4be365162, type: 3}
+  - {fileID: 21300000, guid: f2207485d3bdd1e449e225e57ce3529b, type: 3}
   - {fileID: 21300000, guid: 0f7188f8224c04407be3bf6a691d6ef6, type: 3}
   - {fileID: 21300000, guid: 08ecaafa7b3aa489b9d1677777fd1499, type: 3}
   - {fileID: 21300000, guid: 82228dd178111412aaa6fd5bb9dd5d55, type: 3}
@@ -1722,10 +1722,10 @@ MonoBehaviour:
   playerManager: {fileID: 617800308920534048}
   cameraShake: {fileID: 519420033}
   gameOver: {fileID: 1649833334}
+  innerBounds: {fileID: 937614925}
   startupDuration: 3
   preparationDuration: 30
   surviveDuration: 120
-  innerBounds: {fileID: 937614925}
 --- !u!4 &1852938231
 Transform:
   m_ObjectHideFlags: 0
@@ -1969,6 +1969,17 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6878621404398449289, guid: 35f68c369b59ace4d9aa91fe5f132b96,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f2207485d3bdd1e449e225e57ce3529b,
+        type: 3}
+    - target: {fileID: 6878621404398449289, guid: 35f68c369b59ace4d9aa91fe5f132b96,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5979684787058050649, guid: 35f68c369b59ace4d9aa91fe5f132b96,
         type: 3}
       propertyPath: m_IsTrigger
@@ -2141,7 +2152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbf8617adae11be499ecd35967fa6ef0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alivePlayers:
+  players:
   - {fileID: 1741293466}
   - {fileID: 644403409}
   - {fileID: 1167879545}
@@ -2279,6 +2290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startHealth: 3
+  campfireAnimation: {fileID: 0}
 --- !u!1 &3275763175407915629
 GameObject:
   m_ObjectHideFlags: 0
@@ -2399,6 +2411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startHealth: 3
+  campfireAnimation: {fileID: 0}
 --- !u!61 &3350464871969174953
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2593,6 +2606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startHealth: 3
+  campfireAnimation: {fileID: 0}
 --- !u!1 &3986050199584925380
 GameObject:
   m_ObjectHideFlags: 0
@@ -2639,6 +2653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startHealth: 3
+  campfireAnimation: {fileID: 0}
 --- !u!61 &6732563837103310209
 BoxCollider2D:
   m_ObjectHideFlags: 0
