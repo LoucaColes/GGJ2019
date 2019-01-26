@@ -24,6 +24,10 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject blockPref;
 
+    private Vector3 spawnPosition;
+    private GameObject tempGameObject;
+    private bool actionMode = true;
+
     private string playerID;
     private int intId;
 
@@ -155,8 +159,7 @@ public class Player : MonoBehaviour
                 characterAnimator.Stop();
             }
         }
-
-        if (characterAnimator != null)
+        else if (actionMode)
         {
             characterAnimator.Walk();
         }
@@ -184,17 +187,21 @@ public class Player : MonoBehaviour
         //Apply movement
         XYmovement *= new Vector2(acceleration, acceleration);
         XYmovement += new Vector2(transform.position.x, transform.position.y);
-        rg2D.MovePosition(XYmovement);
 
+        if (actionMode)
+        {
+            rg2D.MovePosition(XYmovement);
+        }
         //Add rotation later for object in player hand
 
         //Action Button
         if (XButton)
         {
             Debug.Log(playerID + " does an X action!");
+            PlaceDownBlock();
             XButton = false;
         }
-        if (OButton)
+        if (OButton && actionMode)
         {
             Debug.Log(playerID + " does an O action!");
             characterAnimator.Stab();
@@ -249,14 +256,26 @@ public class Player : MonoBehaviour
 
     private void PlaceBlock()
     {
-        if (SpendMoney(10))
+        if (SpendMoney(10) && actionMode)
         {
             Vector2 normalized = XYRightmovement;
             Debug.DrawRay(feetCollider2D.transform.position, normalized * placeDistance, Color.cyan, 1f);
-            Vector3 spawnPosition;
             BoxCastUtility.TrySnapToPosition(feetCollider2D.transform.position, normalized * placeDistance, out spawnPosition);
-            GameObject tempGameObject = (GameObject)Instantiate(blockPref, spawnPosition, Quaternion.identity);
-        }        
+            tempGameObject = (GameObject)Instantiate(blockPref, spawnPosition, Quaternion.identity);
+            tempGameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+            actionMode = false;
+        }
+        else if(!actionMode)
+        {
+            Destroy(tempGameObject);
+            actionMode = true;
+        }
+    }
+
+    private void PlaceDownBlock()
+    {
+        tempGameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        actionMode = true;
     }
 
     [ContextMenu("Take Damage")]
