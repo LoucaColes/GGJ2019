@@ -5,8 +5,7 @@ using UnityEngine;
 public class Campfire : Placeable
 {
     #region Variables
-
-
+    [SerializeField] private CampfireAnimation campfireAnimation = null;
     #endregion
 
     #region Unity Events
@@ -16,13 +15,35 @@ public class Campfire : Placeable
     }
     #endregion
 
-    void CanRespawn()
+    public void Initialise()
     {
-
+        //objectHealth = startHealth;
+        campfireAnimation.Restart();
     }
 
-    public void SetDead()
+    public bool CanRespawn()
     {
-        Debug.Log("Fire is Dead");
+        return alive;
+    }
+
+    public override void TakeDamage()
+    {
+        if (alive)
+        {
+            objectHealth -= 1;
+            if (objectHealth <= 0)
+            {
+                Extinguish();
+            }
+        }
+    }
+
+    public void Extinguish()
+    {
+        if(alive)
+        {
+            alive = false;
+            campfireAnimation.Extinguish();
+        }
     }
 }

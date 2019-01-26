@@ -5,22 +5,19 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     #region Variables
-    //[Header("References")]
+    [Header("References")]
     [SerializeField] private PlayerManager playerManager = null;
     [SerializeField] private CameraShake cameraShake = null;
     [SerializeField] private GameOverAnimation gameOver = null;
+    [SerializeField] private GameObject innerBounds;
     [Header("Parameters")]
     [SerializeField] private float startupDuration = 3.0f;
     [SerializeField] private float preparationDuration = 30.0f;
     [SerializeField] private float surviveDuration = 120.0f;
 
-    [SerializeField] private GameObject innerBounds;
-
-    private Player[] mPlayers;
     private GameState mGameState;
     private float mTimer; //Might as well be used for all tracked times
     private Coroutine mCurrentUpdate_Coroutine;
-
     #endregion
 
     #region Unity Events
@@ -34,11 +31,6 @@ public class GameController : MonoBehaviour
             StopCoroutine(mCurrentUpdate_Coroutine);
 
         mCurrentUpdate_Coroutine = StartCoroutine(Join());
-    }
-
-    public void Update()
-    {
-        GridHelper.Update();
     }
     #endregion
 
@@ -54,17 +46,22 @@ public class GameController : MonoBehaviour
     {
         mGameState = GameState.JOIN;
         playerManager.UpdateGameState(mGameState);
+        innerBounds.SetActive(true);
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
 
-        //while (true)
-        //{
-        //    //if (playerManager.IsEveryoneReady())
-        //    //{
-        //    //    break;
-        //    //}
-        //    yield return null;
-        //}
+        while (true)
+        {
+            //if (playerManager.IsEveryoneReady())
+            //{
+            //    break;
+            //}
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                break;
+            }
+            yield return null;
+        }
 
         mCurrentUpdate_Coroutine = StartCoroutine(Startup());
     }
@@ -72,11 +69,9 @@ public class GameController : MonoBehaviour
     private IEnumerator Startup()
     {
         mGameState = GameState.STARTUP;
-        innerBounds.SetActive(true);
+
         playerManager.UpdateGameState(mGameState);
         mTimer = 0;
-
-        //Get number of players
 
         while (mTimer < startupDuration)
         {
@@ -99,7 +94,7 @@ public class GameController : MonoBehaviour
             yield return null;
         }
 
-        //Drop grid limits
+        innerBounds.SetActive(false);
 
         mCurrentUpdate_Coroutine = StartCoroutine(Survive());
     }
@@ -118,16 +113,11 @@ public class GameController : MonoBehaviour
             yield return null;
         }
 
-        //Automatically put out the campfires
-        if (mTimer >= surviveDuration)
+        for (int i = 0; i < 4; i++)
         {
-            CheckGameOver();
-            for (int i = 0; i < 4; i++)
-            {
-                playerManager.KillFire(i);
-            }
-            cameraShake.ShakeCamera(); 
+            playerManager.ExtinguishAllFires();
         }
+        cameraShake.ShakeCamera(); 
 
         while (true)
         {
@@ -143,16 +133,17 @@ public class GameController : MonoBehaviour
     /// </summary>
     private void CheckGameOver()
     {
-        //if(playerManager.GetNumAlivePlayers() <= 1)
-        //{
-        //    if (mCurrentUpdate_Coroutine != null)
-        //        StopCoroutine(mCurrentUpdate_Coroutine);
+        return;
+        if(playerManager.numAlivePlayers <= 1)
+        {
+            if (mCurrentUpdate_Coroutine != null)
+                StopCoroutine(mCurrentUpdate_Coroutine);
 
-        //    mGameState = GameState.GAMEOVER;
-        //    cameraShake.ShakeCamera();
-        //    gameOver.GameOver();
-        //    ReloadGame();
-        //}
+            mGameState = GameState.GAMEOVER;
+            cameraShake.ShakeCamera();
+            gameOver.GameOver();
+            ReloadGame();
+        }
 
     }
 }

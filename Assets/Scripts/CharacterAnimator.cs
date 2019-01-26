@@ -26,14 +26,19 @@ public class CharacterAnimator : MonoBehaviour
 
     public void Walk()
     {
-        animator.SetTrigger("WalkAndStop");
-        animator.SetBool("IsMoving", true);
+        animator.SetBool("IsWalking", true);
+        animator.SetTrigger("Walk");
+    }
+
+    public void StandUp()
+    {
+        animator.SetTrigger("Standup");
+        animator.SetBool("IsWalking", false);
     }
 
     public void Stop()
     {
-        animator.SetTrigger("WalkAndStop");
-        animator.SetBool("IsMoving", false);
+        animator.SetBool("IsWalking", false);
     }
 
     public void Stab()
