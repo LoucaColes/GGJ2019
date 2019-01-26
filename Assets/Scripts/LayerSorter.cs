@@ -8,7 +8,7 @@ public class LayerSorter : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform refPoint = null;
 
-    private const bool USE_POSITION_Z = true;
+    private const bool USE_POSITION_Z = false;
 
     private SpriteRenderer mSpriteRenderer;
     #endregion
@@ -31,7 +31,7 @@ public class LayerSorter : MonoBehaviour
             }
             else
             {
-                mSpriteRenderer.sortingOrder = Mathf.FloorToInt(refPoint.position.y * 1000);
+                mSpriteRenderer.sortingOrder = -Mathf.FloorToInt(refPoint.position.y * 1000);
             }
         }
     }
