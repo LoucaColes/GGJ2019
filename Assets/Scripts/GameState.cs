@@ -1,6 +1,6 @@
 ﻿public enum GameState
 {
-    SPLASH,
+    JOIN,
     STARTUP,
     PREPARATION,
     SURVIVE,
