@@ -11,8 +11,20 @@ public class Player : MonoBehaviour
 
     //Player Data
     private Rigidbody2D rg2D;
+    private SpriteRenderer spriteRenderer;
+    private Collider2D collider2D;
     private string playerID;
-    
+
+    [SerializeField] private int startHealth;
+    private int health;
+
+    private bool Alive()
+    {
+        return health <= 0;
+    }
+
+    [SerializeField] private float respawnTime;
+
     //Movement
     private Vector2 XYmovement = new Vector2(0f, 0f);
     [SerializeField]
@@ -27,13 +39,19 @@ public class Player : MonoBehaviour
     private float aimRot;
     private float lastAimRot;
 
+    //Campfire
+    [SerializeField] private Campfire campfire;
+
     #endregion
 
     #region Unity Events
     private void Awake()
     {
         rg2D = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        collider2D = GetComponent<Collider2D>();
         InitInputs();
+        health = startHealth;
     }
 
     private void Update()
@@ -134,6 +152,34 @@ public class Player : MonoBehaviour
                 Debug.Log("NO CONTROLLER FOR " + gameObject.tag);
                 break;
         }
+    }
+
+    [ContextMenu("Take Damage")]
+    public void TakeDamage()
+    {
+        health -= 1;
+        Debug.Log("Can Respawn: " + campfire.CanRespawn());
+        if (health == 0 && campfire.CanRespawn())
+        {
+            StartCoroutine(Respawn());
+        }
+    }
+
+    private IEnumerator Respawn()
+    {
+        //Disable input renderer and collider
+        spriteRenderer.enabled = false;
+        collider2D.enabled = false;
+
+        //move to campfire
+        rg2D.MovePosition(campfire.transform.position);
+
+        //wait for respawn time
+        yield return new WaitForSeconds(respawnTime);
+        //enable input renderer and collider
+        spriteRenderer.enabled = true;
+        collider2D.enabled = true;
+        health = startHealth;
     }
     #endregion
 }
