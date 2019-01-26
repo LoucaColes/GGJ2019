@@ -12,6 +12,8 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         EnableDisablePlayerInput(true);
+
+        InitPlayers();
     }
 
     // Update is called once per frame
@@ -20,6 +22,17 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Y))
         {
             EnableDisablePlayerInput(false);
+        }
+    }
+
+    private void InitPlayers()
+    {
+        for (int i = 0; i < alivePlayers.Length; i++)
+        {
+            if (alivePlayers[i] != null)
+            {
+                alivePlayers[i].Init(this);
+            }
         }
     }
 
@@ -37,5 +50,17 @@ public class PlayerManager : MonoBehaviour
                 deadPlayers[i].AllowInput = _enable;
             }
         }
+    }
+
+    public void SetPlayerAlive(int _playerId, Player _player)
+    {
+        alivePlayers[_playerId] = _player;
+        deadPlayers[_playerId] = null;
+    }
+
+    public void SetDeadPlayer(int _playerId, Player _player)
+    {
+        alivePlayers[_playerId] = null;
+        deadPlayers[_playerId] = _player;
     }
 }
