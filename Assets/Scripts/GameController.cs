@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
     #region Variables
     //[Header("References")]
     [SerializeField] private PlayerManager playerManager = null;
+    [SerializeField] private Camera mainCamera; 
     [Header("Parameters")]
     [SerializeField] private float startupDuration = 3.0f;
     [SerializeField] private float preparationDuration = 30.0f;
