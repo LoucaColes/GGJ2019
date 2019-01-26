@@ -15,11 +15,17 @@ public class Player : MonoBehaviour
     
     //Movement
     private Vector2 XYmovement = new Vector2(0f, 0f);
+    [SerializeField]
     private Vector2 Deadzone = new Vector2(-0.125f, 0.125f);
 
     //Face Buttons
     private bool XButton = false;
     private bool OButton = false;
+
+    //Rotation
+    private Vector2 aimInput;
+    private float aimRot;
+    private float lastAimRot;
 
     #endregion
 
@@ -63,6 +69,20 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown(playerID + "Action1"))
         {
             OButton = true;
+        }
+
+        //Apply rotation
+        aimInput = new Vector2(XYmovement.x, XYmovement.y);
+        aimRot = Mathf.Rad2Deg * Mathf.Atan2(aimInput.x, aimInput.y);
+
+        if (aimInput.x == 0 && aimInput.y == 0)
+        {
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, -lastAimRot));
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, -aimRot));
+            lastAimRot = aimRot;
         }
     }
 

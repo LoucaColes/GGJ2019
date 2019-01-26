@@ -371,6 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acceleration: 0.1
+  Deadzone: {x: -0.125, y: 0.125}
 --- !u!4 &665708373 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9207752377942875976, guid: 7158168cc7e8d2742919001c4a7f80ff,
@@ -423,7 +424,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &694558073
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,6 +798,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7614144988766085877, guid: fdc2ee8cc4e4c7c4d8742b83d019dd61,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdc2ee8cc4e4c7c4d8742b83d019dd61, type: 3}
 --- !u!1001 &5698211104026458260
@@ -865,6 +871,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828316290141979198, guid: a191cea6fec394046a59b6576588e2d8,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a191cea6fec394046a59b6576588e2d8, type: 3}
@@ -946,6 +957,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2907382447317822051, guid: 0f1cac73c61603f40b0e5959461da211,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f1cac73c61603f40b0e5959461da211, type: 3}
