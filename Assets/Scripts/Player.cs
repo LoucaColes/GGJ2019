@@ -30,6 +30,14 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Vector2 Deadzone = new Vector2(-0.125f, 0.125f);
 
+    private bool allowInput;
+
+    //Input
+    public bool AllowInput
+    {
+        set { allowInput = value; }
+    }
+
     //Face Buttons
     private bool XButton = false;
     private bool OButton = false;
@@ -56,8 +64,11 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        GetInputs();
-        ApplyInputs();
+        if (allowInput)
+        {
+            GetInputs();
+            ApplyInputs();
+        }
     }
 
     /// <summary>
