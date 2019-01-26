@@ -11,12 +11,40 @@ public class Player : MonoBehaviour
 
     //Player Data
     private Rigidbody2D rg2D;
+    private SpriteRenderer spriteRenderer;
+    private Collider2D collider2D;
     private string playerID;
-    
+    private int intId;
+
+    public int IntId
+    {
+        get { return intId; }
+    }
+
+    private PlayerManager playerManager;
+
+    [SerializeField] private int startHealth;
+    private int health;
+
+    private bool Alive()
+    {
+        return health <= 0;
+    }
+
+    [SerializeField] private float respawnTime;
+
     //Movement
     private Vector2 XYmovement = new Vector2(0f, 0f);
     [SerializeField]
     private Vector2 Deadzone = new Vector2(-0.125f, 0.125f);
+
+    private bool allowInput;
+
+    //Input
+    public bool AllowInput
+    {
+        set { allowInput = value; }
+    }
 
     //Face Buttons
     private bool XButton = false;
@@ -27,19 +55,33 @@ public class Player : MonoBehaviour
     private float aimRot;
     private float lastAimRot;
 
+    //Campfire
+    [SerializeField] private Campfire campfire;
+
     #endregion
 
     #region Unity Events
     private void Awake()
     {
         rg2D = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        collider2D = GetComponent<Collider2D>();
         InitInputs();
+        health = startHealth;
     }
 
     private void Update()
     {
-        GetInputs();
-        ApplyInputs();
+        if (allowInput)
+        {
+            GetInputs();
+            ApplyInputs();
+        }
+    }
+
+    public void Init(PlayerManager _playerManager)
+    {
+        playerManager = _playerManager;
     }
 
     /// <summary>
@@ -120,20 +162,58 @@ public class Player : MonoBehaviour
         {
             case "Player1":
                 playerID = "P1";
+                intId = 0;
                 break;
             case "Player2":
                 playerID = "P2";
+                intId = 1;
                 break;
             case "Player3":
                 playerID = "P3";
+                intId = 2;
                 break;
             case "Player4":
                 playerID = "P4";
+                intId = 3;
                 break;
             default:
                 Debug.Log("NO CONTROLLER FOR " + gameObject.tag);
                 break;
         }
+    }
+
+    [ContextMenu("Take Damage")]
+    public void TakeDamage()
+    {
+        health -= 1;
+        Debug.Log("Can Respawn: " + campfire.CanRespawn());
+        if (health == 0 && campfire.CanRespawn())
+        {
+            StartCoroutine(Respawn());
+        }
+        else
+        {
+            playerManager.SetDeadPlayer(intId, this);
+        }
+    }
+
+    private IEnumerator Respawn()
+    {
+        //Disable input renderer and collider
+        spriteRenderer.enabled = false;
+        collider2D.enabled = false;
+        allowInput = false;
+
+        //move to campfire
+        rg2D.MovePosition(campfire.transform.position);
+
+        //wait for respawn time
+        yield return new WaitForSeconds(respawnTime);
+        //enable input renderer and collider
+        spriteRenderer.enabled = true;
+        collider2D.enabled = true;
+        health = startHealth;
+        allowInput = true;
     }
     #endregion
 }
