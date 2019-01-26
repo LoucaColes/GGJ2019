@@ -14,6 +14,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private float preparationDuration = 30.0f;
     [SerializeField] private float surviveDuration = 120.0f;
 
+    [SerializeField] private GameObject innerBounds;
+
     private Player[] mPlayers;
     private GameState mGameState;
     private float mTimer; //Might as well be used for all tracked times
@@ -52,15 +54,18 @@ public class GameController : MonoBehaviour
     {
         mGameState = GameState.JOIN;
         //playerManager.UpdateGameState(mGameState);
+        playerManager.EnableDisablePlayerInput(false);
 
-        while (true)
-        {
-            //if (playerManager.IsEveryoneReady())
-            //{
-            //    break;
-            //}
-            yield return null;
-        }
+        yield return new WaitForSeconds(3);
+
+        //while (true)
+        //{
+        //    //if (playerManager.IsEveryoneReady())
+        //    //{
+        //    //    break;
+        //    //}
+        //    yield return null;
+        //}
 
         mCurrentUpdate_Coroutine = StartCoroutine(Startup());
     }
@@ -68,6 +73,7 @@ public class GameController : MonoBehaviour
     private IEnumerator Startup()
     {
         mGameState = GameState.STARTUP;
+        innerBounds.SetActive(true);
         //playerManager.UpdateGameState(mGameState);
         mTimer = 0;
 
@@ -85,6 +91,7 @@ public class GameController : MonoBehaviour
     private IEnumerator Preparation()
     {
         mGameState = GameState.PREPARATION;
+        playerManager.EnableDisablePlayerInput(true);
         //playerManager.UpdateGameState(mGameState);
         mTimer = 0;
 
@@ -103,6 +110,7 @@ public class GameController : MonoBehaviour
     {
         mGameState = GameState.SURVIVE;
         //playerManager.UpdateGameState(mGameState);
+        innerBounds.SetActive(false);
         mTimer = 0;
 
         while (mTimer < surviveDuration)
