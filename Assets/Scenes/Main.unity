@@ -931,6 +931,7 @@ GameObject:
   - component: {fileID: 1649833332}
   - component: {fileID: 1649833331}
   - component: {fileID: 1649833333}
+  - component: {fileID: 1649833334}
   m_Layer: 5
   m_Name: GameOver
   m_TagString: Untagged
@@ -1125,7 +1126,7 @@ MonoBehaviour:
   animationType: 5
   targetType: 11
   forcedTargetType: 0
-  autoPlay: 1
+  autoPlay: 0
   useTargetAsV3: 0
   endValueFloat: 0
   endValueV3: {x: 0, y: 0, z: 0}
@@ -1145,6 +1146,18 @@ MonoBehaviour:
   optionalRotationMode: 0
   optionalScrambleMode: 0
   optionalString: 
+--- !u!114 &1649833334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649833329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 394cc8561f3c53648b16711071ee0438, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1768438993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1240,6 +1253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerManager: {fileID: 1095983529}
   cameraShake: {fileID: 519420033}
+  gameOver: {fileID: 0}
   startupDuration: 3
   preparationDuration: 30
   surviveDuration: 120
