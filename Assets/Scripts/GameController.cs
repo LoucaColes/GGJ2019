@@ -28,7 +28,7 @@ public class GameController : MonoBehaviour
     {
         GridHelper.Define(1, new Vector2(8, 4.5f));
         mGameState = GameState.JOIN;
-        //playerManager.UpdateGameState(mGameState);
+        playerManager.UpdateGameState(mGameState);
 
         if (mCurrentUpdate_Coroutine != null)
             StopCoroutine(mCurrentUpdate_Coroutine);
@@ -53,8 +53,7 @@ public class GameController : MonoBehaviour
     private IEnumerator Join()
     {
         mGameState = GameState.JOIN;
-        //playerManager.UpdateGameState(mGameState);
-        playerManager.EnableDisablePlayerInput(false);
+        playerManager.UpdateGameState(mGameState);
 
         yield return new WaitForSeconds(3);
 
@@ -74,7 +73,7 @@ public class GameController : MonoBehaviour
     {
         mGameState = GameState.STARTUP;
         innerBounds.SetActive(true);
-        //playerManager.UpdateGameState(mGameState);
+        playerManager.UpdateGameState(mGameState);
         mTimer = 0;
 
         //Get number of players
@@ -91,8 +90,7 @@ public class GameController : MonoBehaviour
     private IEnumerator Preparation()
     {
         mGameState = GameState.PREPARATION;
-        playerManager.EnableDisablePlayerInput(true);
-        //playerManager.UpdateGameState(mGameState);
+        playerManager.UpdateGameState(mGameState);
         mTimer = 0;
 
         while (mTimer < preparationDuration)
@@ -109,7 +107,7 @@ public class GameController : MonoBehaviour
     private IEnumerator Survive()
     {
         mGameState = GameState.SURVIVE;
-        //playerManager.UpdateGameState(mGameState);
+        playerManager.UpdateGameState(mGameState);
         innerBounds.SetActive(false);
         mTimer = 0;
 

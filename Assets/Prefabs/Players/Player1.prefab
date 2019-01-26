@@ -95,10 +95,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 0.1
   money: 100
+  spriteRenderer: {fileID: 0}
+  feetCollider2D: {fileID: 0}
+  bodyCollider2D: {fileID: 0}
+  shadow: {fileID: 0}
+  blockPref: {fileID: 0}
   startHealth: 1
   respawnTime: 3
   Deadzone: {x: -0.125, y: 0.125}
   campfire: {fileID: 0}
+  placeDistance: 0
+  attackDistance: 0
+  characterAnimator: {fileID: 0}
 --- !u!1001 &1572149521648702002
 PrefabInstance:
   m_ObjectHideFlags: 0

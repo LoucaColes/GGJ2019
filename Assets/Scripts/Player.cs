@@ -75,6 +75,14 @@ public class Player : MonoBehaviour
     [SerializeField] private float placeDistance;
     [SerializeField] private float attackDistance;
 
+    [SerializeField]
+    private CharacterAnimator characterAnimator;
+
+    public CharacterAnimator CharacterAnimator
+    {
+        get { return characterAnimator; }
+    }
+
     #endregion
 
     #region Unity Events
@@ -126,6 +134,20 @@ public class Player : MonoBehaviour
             lastDirection = directionVect;
         }
 
+        if (Math.Abs(directionVect.sqrMagnitude) < 0.001f)
+        {
+            Debug.Log("Stop");
+            if (characterAnimator != null)
+            {
+                characterAnimator.Stop();
+            }
+        }
+
+        if (characterAnimator != null)
+        {
+            characterAnimator.Walk();
+        }
+
         //Listen for face buttons
         if (Input.GetButtonDown(playerID + "Action"))
         {
@@ -159,6 +181,7 @@ public class Player : MonoBehaviour
         if (OButton)
         {
             Debug.Log(playerID + " does an O action!");
+            characterAnimator.Stab();
             Attack();
             OButton = false;
         }

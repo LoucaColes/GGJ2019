@@ -71,4 +71,47 @@ public class PlayerManager : MonoBehaviour
         alivePlayers[_playerid].Campfire.SetDead();
         deadPlayers[_playerid].Campfire.SetDead();
     }
+
+    public void UpdateGameState(GameState _state)
+    {
+        switch (_state)
+        {
+            case GameState.JOIN:
+                EnableDisablePlayerInput(false);
+                for (int i = 0; i < alivePlayers.Length; i++)
+                {
+                    if (alivePlayers[i] != null && alivePlayers[i].CharacterAnimator != null)
+                    {
+                        alivePlayers[i].CharacterAnimator.Sit();
+                    }
+                }
+                break;
+            case GameState.STARTUP:
+                for (int i = 0; i < alivePlayers.Length; i++)
+                {
+                    if (alivePlayers[i] != null && alivePlayers[i].CharacterAnimator != null)
+                    {
+                        alivePlayers[i].CharacterAnimator.Stop();
+                    }
+                }
+                break;
+            case GameState.PREPARATION:
+                for (int i = 0; i < alivePlayers.Length; i++)
+                {
+                    if (alivePlayers[i] != null && alivePlayers[i].CharacterAnimator != null)
+                    {
+                        alivePlayers[i].CharacterAnimator.Walk();
+                    }
+                }
+                EnableDisablePlayerInput(true);
+                break;
+            case GameState.SURVIVE:
+                break;
+            case GameState.GAMEOVER:
+                break;
+            default:
+                Debug.LogError("Invalid state");
+                break;
+        }
+    }
 }

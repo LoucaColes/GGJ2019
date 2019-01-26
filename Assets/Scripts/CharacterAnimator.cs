@@ -11,13 +11,6 @@ public class CharacterAnimator : MonoBehaviour
     [SerializeField] private Texture2D[] normal_textures = null;
     #endregion
 
-    IEnumerator Start()
-    {
-        yield return new WaitForSeconds(1.0f);
-        Stop();
-        yield return new WaitForSeconds(1.0f);
-        Stab();
-    }
     //Called from animator
     public void SetAnimationIndex(int _index)
     {
