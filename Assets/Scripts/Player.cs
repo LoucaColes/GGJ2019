@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 
     //Tweaking values
     [SerializeField] private float acceleration = 0f;
+    [SerializeField] private int money = 100;
 
     //Player Data
     private Rigidbody2D rg2D;
@@ -79,6 +80,7 @@ public class Player : MonoBehaviour
             ApplyInputs();
         }
     }
+    #endregion
 
     public void Init(PlayerManager _playerManager)
     {
@@ -216,5 +218,13 @@ public class Player : MonoBehaviour
         health = startHealth;
         allowInput = true;
     }
-    #endregion
+
+    public void SpendMoney(int _money)
+    {
+        money -= _money;
+    }
+    public void GainMoney(int _money)
+    {
+        money += _money;
+    }
 }
