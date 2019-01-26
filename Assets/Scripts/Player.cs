@@ -9,14 +9,17 @@ public class Player : MonoBehaviour
     //Tweaking values
     [SerializeField] private float acceleration = 0f;
 
+    //Player Data
     private Rigidbody2D rg2D;
+    private string playerID;
     
     //Movement
     private Vector2 XYmovement = new Vector2(0f, 0f);
     private Vector2 Deadzone = new Vector2(-0.125f, 0.125f);
 
     //Face Buttons
-    private bool actionButton = false;
+    private bool XButton = false;
+    private bool OButton = false;
 
     #endregion
 
@@ -24,7 +27,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         rg2D = GetComponent<Rigidbody2D>();
-        
+        InitInputs();
     }
 
     private void Update()
@@ -38,8 +41,9 @@ public class Player : MonoBehaviour
     /// </summary>
     private void GetInputs()
     {
+
         //Get Movement from controller axis
-        XYmovement = new Vector2(Input.GetAxisRaw("Horizontal"), -(Input.GetAxisRaw("Vertical")));
+        XYmovement = new Vector2(Input.GetAxisRaw(playerID + "Horizontal"), -(Input.GetAxisRaw(playerID + "Vertical")));
         
         //Apply Deadzone
         if (XYmovement.x > Deadzone.x && XYmovement.x < Deadzone.y)
@@ -52,9 +56,13 @@ public class Player : MonoBehaviour
         }
 
         //Listen for face buttons
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown(playerID + "Action"))
         {
-            actionButton = true;
+            XButton = true;
+        }
+        if (Input.GetButtonDown(playerID + "Action1"))
+        {
+            OButton = true;
         }
     }
 
@@ -71,10 +79,15 @@ public class Player : MonoBehaviour
         //Add rotation later for object in player hand
 
         //Action Button
-        if (actionButton)
+        if (XButton)
         {
-            Debug.Log("Player1 does an action!");
-            actionButton = false;
+            Debug.Log(playerID + " does an X action!");
+            XButton = false;
+        }
+        if (OButton)
+        {
+            Debug.Log(playerID + " does an O action!");
+            OButton = false;
         }
     }
 
@@ -83,7 +96,24 @@ public class Player : MonoBehaviour
     /// </summary>
     private void InitInputs()
     {
-
+        switch (gameObject.tag)
+        {
+            case "Player1":
+                playerID = "P1";
+                break;
+            case "Player2":
+                playerID = "P2";
+                break;
+            case "Player3":
+                playerID = "P3";
+                break;
+            case "Player4":
+                playerID = "P4";
+                break;
+            default:
+                Debug.Log("NO CONTROLLER FOR " + gameObject.tag);
+                break;
+        }
     }
     #endregion
 }
