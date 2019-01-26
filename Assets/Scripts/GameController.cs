@@ -21,8 +21,14 @@ public class GameController : MonoBehaviour
     #region Unity Events
     private void Awake()
     {
+        GridHelper.Define(1, new Vector2(8, 4.5f));
         mGameState = GameState.SPLASH;
-        splash.ShowSplash(BeginGame);
+        //splash.ShowSplash(BeginGame);
+    }
+
+    public void Update()
+    {
+        GridHelper.Update();
     }
     #endregion
 
