@@ -34,3 +34,10 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+Assets/Sprites/Gardener.meta
+Assets/Sprites/Gardener/Gardener_Start-1.png.png.meta
+Assets/Sprites/Gardener/Gardener_Still-1.png.png.meta
+Assets/Scripts/PlayerManager.cs
+Assets/Scripts/Player.cs
+Assets/Scripts/PlayerManager.cs
+Assets/Scripts/Player.cs

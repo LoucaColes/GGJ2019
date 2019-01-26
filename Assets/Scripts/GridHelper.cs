@@ -42,8 +42,14 @@ public class GridHelper
         //Vector3 test = SnapToGrid(new Vector3(-3.1f, -1.6f, 0));
         //Debug.DrawLine(new Vector3(test.x - 0.5f, test.y), new Vector3(test.x + 0.5f, test.y), Color.red);
         //Debug.DrawLine(new Vector3(test.x, test.y - 0.5f), new Vector3(test.x, test.y + 0.5f), Color.red);
+    
     }
 
+    public static Vector2 Size()
+    {
+        return size;
+    }
+    
     public static Vector3 SnapToGrid(Vector3 _pos)
     {
         _pos.x /= size.x;

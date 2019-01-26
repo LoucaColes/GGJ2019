@@ -6,7 +6,8 @@ public class GameController : MonoBehaviour
 {
     #region Variables
     //[Header("References")]
-    //[SerializeField] private PlayerManager playerManager = null;
+    [SerializeField] private PlayerManager playerManager = null;
+    [SerializeField] private CameraShake cameraShake = null;
     [Header("Parameters")]
     [SerializeField] private float startupDuration = 3.0f;
     [SerializeField] private float preparationDuration = 30.0f;
@@ -16,6 +17,7 @@ public class GameController : MonoBehaviour
     private GameState mGameState;
     private float mTimer; //Might as well be used for all tracked times
     private Coroutine mCurrentUpdate_Coroutine;
+
     #endregion
 
     #region Unity Events
@@ -110,6 +112,15 @@ public class GameController : MonoBehaviour
         }
 
         //Automatically put out the campfires
+        if (mTimer >= surviveDuration)
+        {
+            CheckGameOver();
+            for (int i = 0; i < 4; i++)
+            {
+                playerManager.KillFire(i);
+            }
+            cameraShake.ShakeCamera(); 
+        }
 
         while (true)
         {
@@ -131,8 +142,9 @@ public class GameController : MonoBehaviour
         //        StopCoroutine(mCurrentUpdate_Coroutine);
 
         //    mGameState = GameState.GAMEOVER;
+        //    cameraShake.ShakeCamera();
         //    ReloadGame();
         //}
-    }
 
+    }
 }
