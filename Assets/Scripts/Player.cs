@@ -57,6 +57,7 @@ public class Player : MonoBehaviour
 
     //Campfire
     [SerializeField] private Campfire campfire;
+    public Campfire Campfire { get{ return campfire; } }
 
     #endregion
 

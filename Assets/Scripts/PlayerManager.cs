@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private Player[] alivePlayers = new Player[4];
+    
 
     private Player[] deadPlayers = new Player[4];
 
@@ -62,5 +63,12 @@ public class PlayerManager : MonoBehaviour
     {
         alivePlayers[_playerId] = null;
         deadPlayers[_playerId] = _player;
+    }
+
+    //Puts out fires
+    public void KillFire(int _playerid)
+    {
+        alivePlayers[_playerid].Campfire.SetDead();
+        deadPlayers[_playerid].Campfire.SetDead();
     }
 }
