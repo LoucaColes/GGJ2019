@@ -5,8 +5,8 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     #region Variables
-    [Header("References")]
-    [SerializeField] private Splash splash = null;
+    //[Header("References")]
+    //[SerializeField] private PlayerManager playerManager = null;
     [Header("Parameters")]
     [SerializeField] private float startupDuration = 3.0f;
     [SerializeField] private float preparationDuration = 30.0f;
@@ -22,8 +22,13 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         GridHelper.Define(1, new Vector2(8, 4.5f));
-        mGameState = GameState.SPLASH;
-        //splash.ShowSplash(BeginGame);
+        mGameState = GameState.JOIN;
+        //playerManager.UpdateGameState(mGameState);
+
+        if (mCurrentUpdate_Coroutine != null)
+            StopCoroutine(mCurrentUpdate_Coroutine);
+
+        mCurrentUpdate_Coroutine = StartCoroutine(Join());
     }
 
     public void Update()
@@ -32,18 +37,27 @@ public class GameController : MonoBehaviour
     }
     #endregion
 
-    private void BeginGame()
-    {
-        if (mCurrentUpdate_Coroutine != null)
-            StopCoroutine(mCurrentUpdate_Coroutine);
-
-        mCurrentUpdate_Coroutine = StartCoroutine(Startup());
-    }
-
     private void ReloadGame()
     {
         if (mCurrentUpdate_Coroutine != null)
             StopCoroutine(mCurrentUpdate_Coroutine);
+
+        mCurrentUpdate_Coroutine = StartCoroutine(Join());
+    }
+
+    private IEnumerator Join()
+    {
+        mGameState = GameState.JOIN;
+        //playerManager.UpdateGameState(mGameState);
+
+        while (true)
+        {
+            //if (playerManager.IsEveryoneReady())
+            //{
+            //    break;
+            //}
+            yield return null;
+        }
 
         mCurrentUpdate_Coroutine = StartCoroutine(Startup());
     }
@@ -51,6 +65,7 @@ public class GameController : MonoBehaviour
     private IEnumerator Startup()
     {
         mGameState = GameState.STARTUP;
+        //playerManager.UpdateGameState(mGameState);
         mTimer = 0;
 
         //Get number of players
@@ -67,6 +82,7 @@ public class GameController : MonoBehaviour
     private IEnumerator Preparation()
     {
         mGameState = GameState.PREPARATION;
+        //playerManager.UpdateGameState(mGameState);
         mTimer = 0;
 
         while (mTimer < preparationDuration)
@@ -83,6 +99,7 @@ public class GameController : MonoBehaviour
     private IEnumerator Survive()
     {
         mGameState = GameState.SURVIVE;
+        //playerManager.UpdateGameState(mGameState);
         mTimer = 0;
 
         while (mTimer < surviveDuration)
@@ -108,21 +125,14 @@ public class GameController : MonoBehaviour
     /// </summary>
     private void CheckGameOver()
     {
-        int remainingPlayers = mPlayers.Length;
-        for(int i = 0; i < mPlayers.Length; ++i)
-        {
-            //if (mPlayers[i].isOut)
-                //--remainingPlayers;
-        }
+        //if(playerManager.GetNumAlivePlayers() <= 1)
+        //{
+        //    if (mCurrentUpdate_Coroutine != null)
+        //        StopCoroutine(mCurrentUpdate_Coroutine);
 
-        if(remainingPlayers <= 1)
-        {
-            if (mCurrentUpdate_Coroutine != null)
-                StopCoroutine(mCurrentUpdate_Coroutine);
-
-            mGameState = GameState.GAMEOVER;
-            ReloadGame();
-        }
+        //    mGameState = GameState.GAMEOVER;
+        //    ReloadGame();
+        //}
     }
 
 }
