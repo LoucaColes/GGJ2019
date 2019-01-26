@@ -7,7 +7,7 @@ public class GameController : MonoBehaviour
     #region Variables
     //[Header("References")]
     [SerializeField] private PlayerManager playerManager = null;
-    [SerializeField] private Camera mainCamera; 
+    [SerializeField] private CameraShake cameraShake = null;
     [Header("Parameters")]
     [SerializeField] private float startupDuration = 3.0f;
     [SerializeField] private float preparationDuration = 30.0f;
@@ -119,6 +119,7 @@ public class GameController : MonoBehaviour
             {
                 playerManager.KillFire(i);
             }
+            cameraShake.ShakeCamera(); 
         }
 
         while (true)
@@ -141,7 +142,9 @@ public class GameController : MonoBehaviour
         //        StopCoroutine(mCurrentUpdate_Coroutine);
 
         //    mGameState = GameState.GAMEOVER;
+        //    cameraShake.ShakeCamera();
         //    ReloadGame();
         //}
+
     }
 }
