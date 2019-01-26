@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
     //[Header("References")]
     [SerializeField] private PlayerManager playerManager = null;
     [SerializeField] private CameraShake cameraShake = null;
+    [SerializeField] private GameOverAnimation gameOver = null;
     [Header("Parameters")]
     [SerializeField] private float startupDuration = 3.0f;
     [SerializeField] private float preparationDuration = 30.0f;
@@ -143,6 +144,7 @@ public class GameController : MonoBehaviour
 
         //    mGameState = GameState.GAMEOVER;
         //    cameraShake.ShakeCamera();
+        //    gameOver.GameOver();
         //    ReloadGame();
         //}
 
