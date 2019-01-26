@@ -14,6 +14,14 @@ public class Player : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Collider2D collider2D;
     private string playerID;
+    private int intId;
+
+    public int IntId
+    {
+        get { return intId; }
+    }
+
+    private PlayerManager playerManager;
 
     [SerializeField] private int startHealth;
     private int health;
@@ -29,6 +37,14 @@ public class Player : MonoBehaviour
     private Vector2 XYmovement = new Vector2(0f, 0f);
     [SerializeField]
     private Vector2 Deadzone = new Vector2(-0.125f, 0.125f);
+
+    private bool allowInput;
+
+    //Input
+    public bool AllowInput
+    {
+        set { allowInput = value; }
+    }
 
     //Face Buttons
     private bool XButton = false;
@@ -56,8 +72,16 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        GetInputs();
-        ApplyInputs();
+        if (allowInput)
+        {
+            GetInputs();
+            ApplyInputs();
+        }
+    }
+
+    public void Init(PlayerManager _playerManager)
+    {
+        playerManager = _playerManager;
     }
 
     /// <summary>
@@ -138,15 +162,19 @@ public class Player : MonoBehaviour
         {
             case "Player1":
                 playerID = "P1";
+                intId = 0;
                 break;
             case "Player2":
                 playerID = "P2";
+                intId = 1;
                 break;
             case "Player3":
                 playerID = "P3";
+                intId = 2;
                 break;
             case "Player4":
                 playerID = "P4";
+                intId = 3;
                 break;
             default:
                 Debug.Log("NO CONTROLLER FOR " + gameObject.tag);
@@ -163,6 +191,10 @@ public class Player : MonoBehaviour
         {
             StartCoroutine(Respawn());
         }
+        else
+        {
+            playerManager.SetDeadPlayer(intId, this);
+        }
     }
 
     private IEnumerator Respawn()
@@ -170,6 +202,7 @@ public class Player : MonoBehaviour
         //Disable input renderer and collider
         spriteRenderer.enabled = false;
         collider2D.enabled = false;
+        allowInput = false;
 
         //move to campfire
         rg2D.MovePosition(campfire.transform.position);
@@ -180,6 +213,7 @@ public class Player : MonoBehaviour
         spriteRenderer.enabled = true;
         collider2D.enabled = true;
         health = startHealth;
+        allowInput = true;
     }
     #endregion
 }
