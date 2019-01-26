@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,8 +13,17 @@ public class Player : MonoBehaviour
 
     //Player Data
     private Rigidbody2D rg2D;
+    [SerializeField]
     private SpriteRenderer spriteRenderer;
-    private Collider2D collider2D;
+    [SerializeField]
+    private Collider2D feetCollider2D;
+
+    [SerializeField] private Collider2D bodyCollider2D;
+
+    [SerializeField] private GameObject shadow;
+
+    [SerializeField] private GameObject blockPref;
+
     private string playerID;
     private int intId;
 
@@ -36,6 +46,8 @@ public class Player : MonoBehaviour
 
     //Movement
     private Vector2 XYmovement = new Vector2(0f, 0f);
+    private Vector2 directionVect = new Vector2(0f, 0f);
+    private Vector2 lastDirection = new Vector2(0f, 0f);
     [SerializeField]
     private Vector2 Deadzone = new Vector2(-0.125f, 0.125f);
 
@@ -60,14 +72,23 @@ public class Player : MonoBehaviour
     [SerializeField] private Campfire campfire;
     public Campfire Campfire { get{ return campfire; } }
 
+    [SerializeField] private float placeDistance;
+    [SerializeField] private float attackDistance;
+
+    [SerializeField]
+    private CharacterAnimator characterAnimator;
+
+    public CharacterAnimator CharacterAnimator
+    {
+        get { return characterAnimator; }
+    }
+
     #endregion
 
     #region Unity Events
     private void Awake()
     {
         rg2D = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        collider2D = GetComponent<Collider2D>();
         InitInputs();
         health = startHealth;
     }
@@ -106,6 +127,27 @@ public class Player : MonoBehaviour
             XYmovement.y = 0f;
         }
 
+        directionVect = XYmovement;
+
+        if (Math.Abs(directionVect.x) > 0.1f)
+        {
+            lastDirection = directionVect;
+        }
+
+        if (Math.Abs(directionVect.sqrMagnitude) < 0.001f)
+        {
+            Debug.Log("Stop");
+            if (characterAnimator != null)
+            {
+                characterAnimator.Stop();
+            }
+        }
+
+        if (characterAnimator != null)
+        {
+            characterAnimator.Walk();
+        }
+
         //Listen for face buttons
         if (Input.GetButtonDown(playerID + "Action"))
         {
@@ -114,20 +156,6 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown(playerID + "Action1"))
         {
             OButton = true;
-        }
-
-        //Apply rotation
-        aimInput = new Vector2(XYmovement.x, XYmovement.y);
-        aimRot = Mathf.Rad2Deg * Mathf.Atan2(aimInput.x, aimInput.y);
-
-        if (aimInput.x == 0 && aimInput.y == 0)
-        {
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, -lastAimRot));
-        }
-        else
-        {
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, -aimRot));
-            lastAimRot = aimRot;
         }
     }
 
@@ -147,11 +175,14 @@ public class Player : MonoBehaviour
         if (XButton)
         {
             Debug.Log(playerID + " does an X action!");
+            PlaceBlock();
             XButton = false;
         }
         if (OButton)
         {
             Debug.Log(playerID + " does an O action!");
+            characterAnimator.Stab();
+            Attack();
             OButton = false;
         }
     }
@@ -185,6 +216,24 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void Attack()
+    {
+        Debug.Log("last movement: " + lastDirection);
+        Vector2 normalized = lastDirection.normalized;
+        Vector2 xNorm = new Vector2(normalized.x, 0);
+        Debug.DrawRay(transform.position, xNorm * attackDistance, Color.magenta, 1f);
+        BoxCastUtility.TryDamageAtPosition(transform.position, xNorm * attackDistance, transform.root.tag);
+    }
+
+    private void PlaceBlock()
+    {
+        Vector2 normalized = lastDirection.normalized;
+        Debug.DrawRay(feetCollider2D.transform.position, normalized * placeDistance, Color.cyan, 1f);
+        Vector3 spawnPosition;
+        BoxCastUtility.TrySnapToPosition(feetCollider2D.transform.position, normalized * placeDistance, out spawnPosition);
+        GameObject tempGameObject = (GameObject) Instantiate(blockPref, spawnPosition, Quaternion.identity);
+    }
+
     [ContextMenu("Take Damage")]
     public void TakeDamage()
     {
@@ -197,6 +246,10 @@ public class Player : MonoBehaviour
         else
         {
             playerManager.SetDeadPlayer(intId, this);
+            spriteRenderer.enabled = false;
+            feetCollider2D.enabled = false;
+            bodyCollider2D.enabled = false;
+            shadow.SetActive(false);
         }
     }
 
@@ -204,7 +257,9 @@ public class Player : MonoBehaviour
     {
         //Disable input renderer and collider
         spriteRenderer.enabled = false;
-        collider2D.enabled = false;
+        feetCollider2D.enabled = false;
+        bodyCollider2D.enabled = false;
+        shadow.SetActive(false);
         allowInput = false;
 
         //move to campfire
@@ -214,7 +269,9 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(respawnTime);
         //enable input renderer and collider
         spriteRenderer.enabled = true;
-        collider2D.enabled = true;
+        feetCollider2D.enabled = true;
+        bodyCollider2D.enabled = true;
+        shadow.SetActive(true);
         health = startHealth;
         allowInput = true;
     }
