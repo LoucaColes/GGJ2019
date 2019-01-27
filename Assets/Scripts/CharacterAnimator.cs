@@ -31,7 +31,7 @@ public class CharacterAnimator : MonoBehaviour
 
     public void Walk()
     {
-        if (1 < Time.realtimeSinceStartup - delay)
+        if (0.75f < Time.realtimeSinceStartup - delay)
         {
             animator.SetBool("IsWalking", true);
         }
@@ -45,7 +45,7 @@ public class CharacterAnimator : MonoBehaviour
 
     public void Stop()
     {
-        if (1 < Time.realtimeSinceStartup - delay)
+        if (0.75f < Time.realtimeSinceStartup - delay)
         {
             animator.SetBool("IsWalking", false);
         }
@@ -53,7 +53,7 @@ public class CharacterAnimator : MonoBehaviour
 
     public void Stab()
     {
-        if (1 < Time.realtimeSinceStartup - delay)
+        if (0.75f < Time.realtimeSinceStartup - delay)
         {
             delay = Time.realtimeSinceStartup;
             animator.SetTrigger("Stab");
@@ -62,7 +62,7 @@ public class CharacterAnimator : MonoBehaviour
 
     public void Water()
     {
-        if (1 < Time.realtimeSinceStartup - delay)
+        if (0.75f < Time.realtimeSinceStartup - delay)
         {
             delay = Time.realtimeSinceStartup;
             animator.SetTrigger("Water");

@@ -215,7 +215,7 @@ public class Player : MonoBehaviour
         //Action Button
         if (XButton)
         {
-            PlaceDownBlock();
+            //PlaceDownBlock();
             XButton = false;
         }
         if (OButton && actionMode)
@@ -230,7 +230,7 @@ public class Player : MonoBehaviour
         }
         if (R1Button)
         {
-            PlaceBlock();
+            //PlaceBlock();
             R1Button = false;
         }
     }
