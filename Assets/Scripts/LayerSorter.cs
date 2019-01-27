@@ -38,7 +38,7 @@ public class LayerSorter : MonoBehaviour
                 if(mSpriteRenderer)
                     mSpriteRenderer.sortingOrder = -Mathf.FloorToInt(refPoint.position.y * 1000);
                 if (mParticleSystem)
-                    mParticleSystem.sortingOrder = -Mathf.FloorToInt(refPoint.position.y * 1000) + 1;
+                    mParticleSystem.sortingOrder = -Mathf.FloorToInt(refPoint.position.y * 1000) - 1;
             }
         }
     }
