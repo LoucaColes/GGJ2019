@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
@@ -272,10 +273,30 @@ public class Player : MonoBehaviour
             case BoxCastUtility.BoxCastHitType.NOTHING:
                 characterAnimator.Stab();
                 //Play swing sound
+                AudioManager.instance.Play("Swing", transform.position);
                 break;
             case BoxCastUtility.BoxCastHitType.PLACEABLE:
                 characterAnimator.Stab();
                 //Play smash sound
+                int rand = Random.Range(0, 3);
+                switch (rand)
+                {
+                    case 0:
+                        AudioManager.instance.Play("Stab1", transform.position);
+                        break;
+                    case 1:
+                        AudioManager.instance.Play("Stab2", transform.position);
+                        break;
+                    case 2:
+                        AudioManager.instance.Play("Stab3", transform.position);
+                        break;
+                    case 3:
+                        AudioManager.instance.Play("Stab4", transform.position);
+                        break;
+                    default:
+                        AudioManager.instance.Play("Stab1", transform.position);
+                        break;
+                }
                 break;
             case BoxCastUtility.BoxCastHitType.FIRE:
                 characterAnimator.Water();
@@ -284,6 +305,25 @@ public class Player : MonoBehaviour
             case BoxCastUtility.BoxCastHitType.PLAYER:
                 characterAnimator.Stab();
                 //Play injury sound
+                int prand = Random.Range(0, 3);
+                switch (prand)
+                {
+                    case 0:
+                        AudioManager.instance.Play("Stab1", transform.position);
+                        break;
+                    case 1:
+                        AudioManager.instance.Play("Stab2", transform.position);
+                        break;
+                    case 2:
+                        AudioManager.instance.Play("Stab3", transform.position);
+                        break;
+                    case 3:
+                        AudioManager.instance.Play("Stab4", transform.position);
+                        break;
+                    default:
+                        AudioManager.instance.Play("Stab1", transform.position);
+                        break;
+                }
                 break;
         }
     }

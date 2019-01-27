@@ -14,6 +14,8 @@ public class SplashScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        AudioManager.instance.Play("Atmos", Vector3.zero, true);
+        AudioManager.instance.Play("Campfire", Vector3.zero, true);
         StartCoroutine(LoadMainMenu());
     }
 
