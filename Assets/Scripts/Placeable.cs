@@ -10,6 +10,8 @@ public class Placeable : MonoBehaviour
 
     protected bool alive;
 
+    public bool isAlive { get { return alive; } }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,16 +26,17 @@ public class Placeable : MonoBehaviour
     }
 
     [ContextMenu("Take Damage")]
-    public virtual void TakeDamage()
+    public virtual bool TakeDamage()
     {
         objectHealth -= 1;
         if (objectHealth <= 0)
         {
             alive = false;
         }
+        return alive;
     }
 
-    public bool CanRespawn()
+    public virtual bool CanRespawn()
     {
         return alive;
     }

@@ -81,18 +81,14 @@ public class PlayerManager : MonoBehaviour
                         //Controller not active becomes active
                         if (!players[i].gameObject.activeSelf)
                         {
-                            players[i].gameObject.SetActive(true);
-                            players[i].Campfire.gameObject.SetActive(true);
-                            players[i].transform.position = players[i].Campfire.transform.position + Vector3.left;
-                            players[i].CharacterAnimator.Sit();
+                            players[i].AddPlayerToWorld();
                         }
                         continue;
                     }
                 }
 
                 //Controller not active
-                players[i].gameObject.SetActive(false);
-                players[i].Campfire.gameObject.SetActive(false);
+                players[i].RemovePlayerFromWorld();
             }
             yield return null;
         }

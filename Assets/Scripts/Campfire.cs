@@ -6,6 +6,8 @@ public class Campfire : Placeable
 {
     #region Variables
     [SerializeField] private CampfireAnimation campfireAnimation = null;
+    [SerializeField] private Light campfireLight = null;
+    [SerializeField] private ParticleSystem campfireParticle = null;
     #endregion
 
     #region Unity Events
@@ -19,14 +21,11 @@ public class Campfire : Placeable
     {
         //objectHealth = startHealth;
         campfireAnimation.Restart();
+        campfireParticle.Play();
+        campfireLight.gameObject.SetActive(true);
     }
 
-    public bool CanRespawn()
-    {
-        return alive;
-    }
-
-    public override void TakeDamage()
+    public override bool TakeDamage()
     {
         if (alive)
         {
@@ -36,6 +35,7 @@ public class Campfire : Placeable
                 Extinguish();
             }
         }
+        return alive;
     }
 
     public void Extinguish()
@@ -44,6 +44,8 @@ public class Campfire : Placeable
         {
             alive = false;
             campfireAnimation.Extinguish();
+            campfireParticle.Stop();
+            campfireLight.gameObject.SetActive(false);
         }
     }
 }

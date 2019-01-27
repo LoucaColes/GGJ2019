@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Obstacle : Placeable
 {
-    public override void TakeDamage()
+    public override bool TakeDamage()
     {
         objectHealth -= 1;
         if (objectHealth <= 0)
@@ -12,5 +12,6 @@ public class Obstacle : Placeable
             alive = false;
             Destroy(gameObject);
         }
+        return alive;
     }
 }

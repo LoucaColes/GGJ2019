@@ -11,12 +11,16 @@ public class LayerSorter : MonoBehaviour
     private const bool USE_POSITION_Z = false;
 
     private SpriteRenderer mSpriteRenderer;
+    private ParticleSystemRenderer mParticleSystem;
     #endregion
 
     #region Unity Events
     private void Awake()
     {
         mSpriteRenderer = GetComponent<SpriteRenderer>();
+        ParticleSystem particle = GetComponent<ParticleSystem>();
+        if(particle)
+            mParticleSystem = (ParticleSystemRenderer)particle.GetComponent<Renderer>();
         if (!refPoint)
             refPoint = transform;
     }
@@ -31,7 +35,10 @@ public class LayerSorter : MonoBehaviour
             }
             else
             {
-                mSpriteRenderer.sortingOrder = -Mathf.FloorToInt(refPoint.position.y * 1000);
+                if(mSpriteRenderer)
+                    mSpriteRenderer.sortingOrder = -Mathf.FloorToInt(refPoint.position.y * 1000);
+                if (mParticleSystem)
+                    mParticleSystem.sortingOrder = -Mathf.FloorToInt(refPoint.position.y * 1000) + 1;
             }
         }
     }

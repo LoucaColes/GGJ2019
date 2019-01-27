@@ -6,23 +6,28 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     #region Variables
+    [Header("References")]
+    //Player Data
+    private Rigidbody2D rg2D;
+    [SerializeField] private SpriteRenderer spriteRenderer = null;
+    [SerializeField]
+    private Collider2D feetCollider2D = null;
 
-    //Tweaking values
+    [SerializeField] private Collider2D bodyCollider2D = null;
+    [SerializeField] private CharacterAnimator characterAnimator = null;
+    [SerializeField] private Campfire campfire = null;
+    [SerializeField] private GameObject shadow = null;
+    [SerializeField] private Transform shadowLeft = null;
+    [SerializeField] private Transform shadowRight = null;
+
+    [SerializeField] private GameObject blockPref = null;
+
+    [Header("Parameters")]
+    [SerializeField] private float actionRate = 0.5f;
     [SerializeField] private float acceleration = 0f;
     [SerializeField] private int money = 100;
 
-    //Player Data
-    private Rigidbody2D rg2D;
-    [SerializeField]
-    private SpriteRenderer spriteRenderer;
-    [SerializeField]
-    private Collider2D feetCollider2D;
 
-    [SerializeField] private Collider2D bodyCollider2D;
-
-    [SerializeField] private GameObject shadow;
-
-    [SerializeField] private GameObject blockPref;
 
     private Vector3 spawnPosition;
     private GameObject tempGameObject;
@@ -30,6 +35,7 @@ public class Player : MonoBehaviour
 
     private string playerID;
     private int intId;
+    private float mActionTimer;
 
     public int IntId
     {
@@ -38,7 +44,7 @@ public class Player : MonoBehaviour
 
     private PlayerManager playerManager;
 
-    [SerializeField] private int startHealth;
+    [SerializeField] private int startHealth = 1;
     private int health;
 
     private bool Alive()
@@ -46,7 +52,7 @@ public class Player : MonoBehaviour
         return health <= 0;
     }
 
-    [SerializeField] private float respawnTime;
+    [SerializeField] private float respawnTime = 0.5f;
 
     //Movement
     private Vector2 XYmovement = new Vector2(0f, 0f);
@@ -74,15 +80,12 @@ public class Player : MonoBehaviour
     private float aimRot;
     private float lastAimRot;
 
-    //Campfire
-    [SerializeField] private Campfire campfire;
+
     public Campfire Campfire { get{ return campfire; } }
 
-    [SerializeField] private float placeDistance;
-    [SerializeField] private float attackDistance;
+    [SerializeField] private float placeDistance = 1.0f;
+    [SerializeField] private float attackDistance = 0.5f;
 
-    [SerializeField]
-    private CharacterAnimator characterAnimator;
 
     public CharacterAnimator CharacterAnimator
     {
@@ -112,6 +115,20 @@ public class Player : MonoBehaviour
     public void Init(PlayerManager _playerManager)
     {
         playerManager = _playerManager;
+    }
+
+    public void AddPlayerToWorld()
+    {
+        gameObject.SetActive(true);
+        Campfire.gameObject.SetActive(true);
+        transform.position = Campfire.transform.position + Vector3.left;
+        CharacterAnimator.Sit();
+    }
+
+    public void RemovePlayerFromWorld()
+    {
+        gameObject.SetActive(false);
+        Campfire.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -151,15 +168,11 @@ public class Player : MonoBehaviour
             lastDirection = directionVect;
         }
 
-        if (Math.Abs(directionVect.sqrMagnitude) < 0.001f)
+        if (Math.Abs(directionVect.sqrMagnitude) < 0.00001f)
         {
-            //Debug.Log("Stop");
-            if (characterAnimator != null)
-            {
-                characterAnimator.Stop();
-            }
+            characterAnimator.Stop();
         }
-        else if (actionMode)
+        else
         {
             characterAnimator.Walk();
         }
@@ -183,7 +196,11 @@ public class Player : MonoBehaviour
     /// Applies inputs to player character
     /// </summary>
     private void ApplyInputs()
-    {
+    { 
+        //Use the last moved direction to determine the facing direction of the sprite
+        spriteRenderer.flipX = lastDirection.x < 0;
+        shadow.transform.position = spriteRenderer.flipX ? shadowRight.position : shadowLeft.position;
+
         //Apply movement
         XYmovement *= new Vector2(acceleration, acceleration);
         XYmovement += new Vector2(transform.position.x, transform.position.y);
@@ -197,20 +214,21 @@ public class Player : MonoBehaviour
         //Action Button
         if (XButton)
         {
-            Debug.Log(playerID + " does an X action!");
             PlaceDownBlock();
             XButton = false;
         }
         if (OButton && actionMode)
         {
-            Debug.Log(playerID + " does an O action!");
-            characterAnimator.Stab();
-            Attack();
+            if(Time.realtimeSinceStartup - mActionTimer > actionRate)
+            {
+                mActionTimer = Time.realtimeSinceStartup;
+                Action();
+            }
+
             OButton = false;
         }
         if (R1Button)
         {
-            Debug.Log(playerID + " does an R1 action!");
             PlaceBlock();
             R1Button = false;
         }
@@ -245,13 +263,29 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Attack()
+    private void Action()
     {
-        Debug.Log("last movement: " + lastDirection);
         Vector2 normalized = lastDirection.normalized;
         Vector2 xNorm = new Vector2(normalized.x, 0);
-        Debug.DrawRay(transform.position, xNorm * attackDistance, Color.magenta, 1f);
-        BoxCastUtility.TryDamageAtPosition(transform.position, xNorm * attackDistance, transform.root.tag);
+        switch(BoxCastUtility.TryActionAtPosition(transform.position, xNorm * attackDistance, transform.root.tag))
+        {
+            case BoxCastUtility.BoxCastHitType.NOTHING:
+                characterAnimator.Stab();
+                //Play swing sound
+                break;
+            case BoxCastUtility.BoxCastHitType.PLACEABLE:
+                characterAnimator.Stab();
+                //Play smash sound
+                break;
+            case BoxCastUtility.BoxCastHitType.FIRE:
+                characterAnimator.Water();
+                //Play extinguish sound
+                break;
+            case BoxCastUtility.BoxCastHitType.PLAYER:
+                characterAnimator.Stab();
+                //Play injury sound
+                break;
+        }
     }
 
     private void PlaceBlock()
