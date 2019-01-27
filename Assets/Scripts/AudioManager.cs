@@ -47,6 +47,25 @@ public class AudioManager : MonoBehaviour
         return audioSource;
     }
 
+    public AudioSource Play(string _name, Vector3 _position, bool _loop = false)
+    {
+        AudioSource audioSource = audioSourcePool.GetPooledObject();
+        audioSource.loop = _loop;
+        float volume;
+        audioSource.clip = FindClip(_name, out volume);
+        audioSource.volume = volume;
+        if (audioSource.clip == null)
+        {
+            return null;
+        }
+
+        audioSource.transform.position = _position;
+
+        audioSource.Play();
+
+        return audioSource;
+    }
+
     public AudioClip FindClip(string _name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == _name);
@@ -56,6 +75,20 @@ public class AudioManager : MonoBehaviour
             return null;
         }
 
+        return s.clip;
+    }
+
+    public AudioClip FindClip(string _name, out float volume)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == _name);
+        if (s == null)
+        {
+            Debug.LogError("Could not find sound using: " + _name);
+            volume = 0;
+            return null;
+        }
+
+        volume = s.volume;
         return s.clip;
     }
 }

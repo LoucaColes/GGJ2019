@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -40,10 +41,14 @@ public class GameController : MonoBehaviour
             StopCoroutine(mCurrentUpdate_Coroutine);
 
         mCurrentUpdate_Coroutine = StartCoroutine(Join());
+
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private IEnumerator Join()
     {
+        //AudioManager.instance.Play("Atmos", Vector3.zero, true);
+        //AudioManager.instance.Play("Campfire", Vector3.zero, true);
         mGameState = GameState.JOIN;
         playerManager.UpdateGameState(mGameState);
         innerBounds.SetActive(true);
