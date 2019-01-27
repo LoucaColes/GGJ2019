@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     private GameState mGameState;
     private float mTimer; //Might as well be used for all tracked times
     private Coroutine mCurrentUpdate_Coroutine;
+    private AudioSource musicAudioSource;
     #endregion
 
     #region Unity Events
@@ -49,6 +50,11 @@ public class GameController : MonoBehaviour
     {
         //AudioManager.instance.Play("Atmos", Vector3.zero, true);
         //AudioManager.instance.Play("Campfire", Vector3.zero, true);
+        if (musicAudioSource != null && musicAudioSource.gameObject.activeSelf)
+        {
+            musicAudioSource.Stop();
+        }
+        musicAudioSource = AudioManager.instance.Play("Music", Vector3.zero, true);
         mGameState = GameState.JOIN;
         playerManager.UpdateGameState(mGameState);
         innerBounds.SetActive(true);
@@ -121,6 +127,11 @@ public class GameController : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             playerManager.ExtinguishAllFires();
+            if (musicAudioSource != null && musicAudioSource.gameObject.activeSelf)
+            {
+                musicAudioSource.Stop();
+            }
+            AudioManager.instance.StopCampFireAudio();
         }
         cameraShake.ShakeCamera(); 
 
