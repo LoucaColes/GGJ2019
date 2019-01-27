@@ -26,24 +26,23 @@ public class GridHelper
         extents = _extents;
     }
 
-    public static void Update()
-    {
-        return;
-        for (float i = -extents.x; i <= extents.x; i += size.x)
-        {
-            Debug.DrawLine(new Vector3(i, -extents.y), new Vector3(i, extents.y));
-        }
+    //public static void Update()
+    //{
+    //    for (float i = -extents.x; i <= extents.x; i += size.x)
+    //    {
+    //        Debug.DrawLine(new Vector3(i, -extents.y), new Vector3(i, extents.y));
+    //    }
 
-        for (float i = -extents.y; i <= extents.y; i += size.y)
-        {
-            Debug.DrawLine(new Vector3(-extents.x, i), new Vector3(extents.x, i));
-        }
+    //    for (float i = -extents.y; i <= extents.y; i += size.y)
+    //    {
+    //        Debug.DrawLine(new Vector3(-extents.x, i), new Vector3(extents.x, i));
+    //    }
 
-        //Vector3 test = SnapToGrid(new Vector3(-3.1f, -1.6f, 0));
-        //Debug.DrawLine(new Vector3(test.x - 0.5f, test.y), new Vector3(test.x + 0.5f, test.y), Color.red);
-        //Debug.DrawLine(new Vector3(test.x, test.y - 0.5f), new Vector3(test.x, test.y + 0.5f), Color.red);
+    //    //Vector3 test = SnapToGrid(new Vector3(-3.1f, -1.6f, 0));
+    //    //Debug.DrawLine(new Vector3(test.x - 0.5f, test.y), new Vector3(test.x + 0.5f, test.y), Color.red);
+    //    //Debug.DrawLine(new Vector3(test.x, test.y - 0.5f), new Vector3(test.x, test.y + 0.5f), Color.red);
     
-    }
+    //}
 
     public static Vector2 Size()
     {

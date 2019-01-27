@@ -81,6 +81,17 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -108,7 +119,11 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
+<<<<<<< HEAD:Assets/Sprites/Camper/Camper_Start-1.png.png.meta
+    spriteID: 53d1ada1ec7ed484bb509efd8ddeb068
+=======
     spriteID: d165c52301a606747a2e14f6f23ed312
+>>>>>>> 8da45c6edccda72a5bac5f8a4280a044469d947d:Assets/Sprites/Geisha/Geisha_Walkside2_n1.png.meta
     vertices: []
     indices: 
     edges: []

@@ -4,51 +4,43 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField] private Player[] alivePlayers = new Player[4];
-    
+    #region Variables
+    [SerializeField] private Player[] players = null;
 
+    public int numAlivePlayers { get { return alivePlayers.Length; } }
+
+    //This should probably be done differently now
+    private Player[] alivePlayers = new Player[4];
     private Player[] deadPlayers = new Player[4];
 
+    private Coroutine mDetectPlayers_Coroutine;
+    #endregion
+
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        //EnableDisablePlayerInput(true);
-
-        InitPlayers();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Y))
+        //Inject playermanager into the players
+        for (int i = 0; i < players.Length; i++)
         {
-            EnableDisablePlayerInput(false);
-        }
-    }
-
-    private void InitPlayers()
-    {
-        for (int i = 0; i < alivePlayers.Length; i++)
-        {
-            if (alivePlayers[i] != null)
+            if (players[i] != null)
             {
-                alivePlayers[i].Init(this);
+                players[i].Init(this);
             }
         }
     }
 
     public void EnableDisablePlayerInput(bool _enable)
     {
-        for (int i = 0; i < alivePlayers.Length; i++)
+        for (int i = 0; i < players.Length; i++)
         {
-            if (alivePlayers[i] != null)
+            if (players[i] != null)
             {
-                alivePlayers[i].AllowInput = _enable;
+                players[i].AllowInput = _enable;
             }
 
-            if (deadPlayers[i] != null)
+            if (players[i] != null)
             {
-                deadPlayers[i].AllowInput = _enable;
+                players[i].AllowInput = _enable;
             }
         }
     }
@@ -66,10 +58,44 @@ public class PlayerManager : MonoBehaviour
     }
 
     //Puts out fires
-    public void KillFire(int _playerid)
+    public void ExtinguishAllFires()
     {
-        alivePlayers[_playerid].Campfire.SetDead();
-        deadPlayers[_playerid].Campfire.SetDead();
+        for(int i = 0; i < alivePlayers.Length; ++i)
+        {
+            if (alivePlayers[i])
+                alivePlayers[i].Campfire.Extinguish();
+        }
+    }
+
+    private IEnumerator DetectPlayers()
+    {
+        while (true)
+        {
+            string[] joysticks = Input.GetJoystickNames();
+            for (int i = 0; i < 4; ++i)
+            {
+                if(i < joysticks.Length)
+                {
+                    if (!string.IsNullOrEmpty(joysticks[i]))
+                    {
+                        //Controller not active becomes active
+                        if (!players[i].gameObject.activeSelf)
+                        {
+                            players[i].gameObject.SetActive(true);
+                            players[i].Campfire.gameObject.SetActive(true);
+                            players[i].transform.position = players[i].Campfire.transform.position + Vector3.left;
+                            players[i].CharacterAnimator.Sit();
+                        }
+                        continue;
+                    }
+                }
+
+                //Controller not active
+                players[i].gameObject.SetActive(false);
+                players[i].Campfire.gameObject.SetActive(false);
+            }
+            yield return null;
+        }
     }
 
     public void UpdateGameState(GameState _state)
@@ -78,31 +104,26 @@ public class PlayerManager : MonoBehaviour
         {
             case GameState.JOIN:
                 EnableDisablePlayerInput(false);
-                for (int i = 0; i < alivePlayers.Length; i++)
-                {
-                    if (alivePlayers[i] != null && alivePlayers[i].CharacterAnimator != null)
-                    {
-                        alivePlayers[i].CharacterAnimator.Sit();
-                    }
-                }
+                if (mDetectPlayers_Coroutine == null)
+                    mDetectPlayers_Coroutine = StartCoroutine(DetectPlayers());
                 break;
             case GameState.STARTUP:
-                for (int i = 0; i < alivePlayers.Length; i++)
+                if (mDetectPlayers_Coroutine != null)
+                    StopCoroutine(mDetectPlayers_Coroutine);
+
+                alivePlayers = new Player[4];
+                deadPlayers = new Player[4];
+
+                for (int i = 0; i < players.Length; i++)
                 {
-                    if (alivePlayers[i] != null && alivePlayers[i].CharacterAnimator != null)
+                    if (players[i].gameObject.activeSelf)
                     {
-                        alivePlayers[i].CharacterAnimator.Stop();
+                        alivePlayers[i] = players[i];
+                        alivePlayers[i].CharacterAnimator.StandUp();
                     }
                 }
                 break;
             case GameState.PREPARATION:
-                for (int i = 0; i < alivePlayers.Length; i++)
-                {
-                    if (alivePlayers[i] != null && alivePlayers[i].CharacterAnimator != null)
-                    {
-                        alivePlayers[i].CharacterAnimator.Walk();
-                    }
-                }
                 EnableDisablePlayerInput(true);
                 break;
             case GameState.SURVIVE:

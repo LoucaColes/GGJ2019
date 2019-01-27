@@ -21,13 +21,13 @@ public class Home : MonoBehaviour
         GridHelper.HomeBounds(corner, X, Y, out mCentre, out mExtents);
     }
 
-    private void Update()
-    {
-        Debug.DrawLine(new Vector3(mCentre.x - mExtents.x, mCentre.y + mExtents.y), new Vector3(mCentre.x - mExtents.x, mCentre.y - mExtents.y), Color.green);
-        Debug.DrawLine(new Vector3(mCentre.x - mExtents.x, mCentre.y + mExtents.y), new Vector3(mCentre.x + mExtents.x, mCentre.y + mExtents.y), Color.green);
-        Debug.DrawLine(new Vector3(mCentre.x + mExtents.x, mCentre.y - mExtents.y), new Vector3(mCentre.x + mExtents.x, mCentre.y + mExtents.y), Color.green);
-        Debug.DrawLine(new Vector3(mCentre.x + mExtents.x, mCentre.y - mExtents.y), new Vector3(mCentre.x - mExtents.x, mCentre.y - mExtents.y), Color.green);
-    }
+    //private void Update()
+    //{
+    //    Debug.DrawLine(new Vector3(mCentre.x - mExtents.x, mCentre.y + mExtents.y), new Vector3(mCentre.x - mExtents.x, mCentre.y - mExtents.y), Color.green);
+    //    Debug.DrawLine(new Vector3(mCentre.x - mExtents.x, mCentre.y + mExtents.y), new Vector3(mCentre.x + mExtents.x, mCentre.y + mExtents.y), Color.green);
+    //    Debug.DrawLine(new Vector3(mCentre.x + mExtents.x, mCentre.y - mExtents.y), new Vector3(mCentre.x + mExtents.x, mCentre.y + mExtents.y), Color.green);
+    //    Debug.DrawLine(new Vector3(mCentre.x + mExtents.x, mCentre.y - mExtents.y), new Vector3(mCentre.x - mExtents.x, mCentre.y - mExtents.y), Color.green);
+    //}
     #endregion
 
     public Vector2 Initialise(string _id)

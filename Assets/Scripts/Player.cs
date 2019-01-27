@@ -24,6 +24,10 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject blockPref;
 
+    private Vector3 spawnPosition;
+    private GameObject tempGameObject;
+    private bool actionMode = true;
+
     private string playerID;
     private int intId;
 
@@ -46,6 +50,7 @@ public class Player : MonoBehaviour
 
     //Movement
     private Vector2 XYmovement = new Vector2(0f, 0f);
+    private Vector2 XYRightmovement = new Vector2(0f, 0f);
     private Vector2 directionVect = new Vector2(0f, 0f);
     private Vector2 lastDirection = new Vector2(0f, 0f);
     [SerializeField]
@@ -62,6 +67,7 @@ public class Player : MonoBehaviour
     //Face Buttons
     private bool XButton = false;
     private bool OButton = false;
+    private bool R1Button = false;
 
     //Rotation
     private Vector2 aimInput;
@@ -116,6 +122,7 @@ public class Player : MonoBehaviour
 
         //Get Movement from controller axis
         XYmovement = new Vector2(Input.GetAxisRaw(playerID + "Horizontal"), -(Input.GetAxisRaw(playerID + "Vertical")));
+        XYRightmovement = new Vector2(Input.GetAxisRaw(playerID + "RightHorizontal"), -(Input.GetAxisRaw(playerID + "RightVertical")));
         
         //Apply Deadzone
         if (XYmovement.x > Deadzone.x && XYmovement.x < Deadzone.y)
@@ -126,6 +133,16 @@ public class Player : MonoBehaviour
         {
             XYmovement.y = 0f;
         }
+        if (XYRightmovement.x > Deadzone.x && XYRightmovement.x < Deadzone.y)
+        {
+            XYRightmovement.x = 0f;
+        }
+        if (XYRightmovement.y > Deadzone.x && XYRightmovement.y < Deadzone.y)
+        {
+            XYRightmovement.y = 0f;
+        }
+
+
 
         directionVect = XYmovement;
 
@@ -136,14 +153,13 @@ public class Player : MonoBehaviour
 
         if (Math.Abs(directionVect.sqrMagnitude) < 0.001f)
         {
-            Debug.Log("Stop");
+            //Debug.Log("Stop");
             if (characterAnimator != null)
             {
                 characterAnimator.Stop();
             }
         }
-
-        if (characterAnimator != null)
+        else if (actionMode)
         {
             characterAnimator.Walk();
         }
@@ -157,6 +173,10 @@ public class Player : MonoBehaviour
         {
             OButton = true;
         }
+        if (Input.GetButtonDown(playerID + "Action2"))
+        {
+            R1Button = true;
+        }
     }
 
     /// <summary>
@@ -167,23 +187,32 @@ public class Player : MonoBehaviour
         //Apply movement
         XYmovement *= new Vector2(acceleration, acceleration);
         XYmovement += new Vector2(transform.position.x, transform.position.y);
-        rg2D.MovePosition(XYmovement);
 
+        if (actionMode)
+        {
+            rg2D.MovePosition(XYmovement);
+        }
         //Add rotation later for object in player hand
 
         //Action Button
         if (XButton)
         {
             Debug.Log(playerID + " does an X action!");
-            PlaceBlock();
+            PlaceDownBlock();
             XButton = false;
         }
-        if (OButton)
+        if (OButton && actionMode)
         {
             Debug.Log(playerID + " does an O action!");
             characterAnimator.Stab();
             Attack();
             OButton = false;
+        }
+        if (R1Button)
+        {
+            Debug.Log(playerID + " does an R1 action!");
+            PlaceBlock();
+            R1Button = false;
         }
     }
 
@@ -227,11 +256,26 @@ public class Player : MonoBehaviour
 
     private void PlaceBlock()
     {
-        Vector2 normalized = lastDirection.normalized;
-        Debug.DrawRay(feetCollider2D.transform.position, normalized * placeDistance, Color.cyan, 1f);
-        Vector3 spawnPosition;
-        BoxCastUtility.TrySnapToPosition(feetCollider2D.transform.position, normalized * placeDistance, out spawnPosition);
-        GameObject tempGameObject = (GameObject) Instantiate(blockPref, spawnPosition, Quaternion.identity);
+        if (SpendMoney(10) && actionMode)
+        {
+            Vector2 normalized = XYRightmovement;
+            Debug.DrawRay(feetCollider2D.transform.position, normalized * placeDistance, Color.cyan, 1f);
+            BoxCastUtility.TrySnapToPosition(feetCollider2D.transform.position, normalized * placeDistance, out spawnPosition);
+            tempGameObject = (GameObject)Instantiate(blockPref, spawnPosition, Quaternion.identity);
+            tempGameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+            actionMode = false;
+        }
+        else if(!actionMode)
+        {
+            Destroy(tempGameObject);
+            actionMode = true;
+        }
+    }
+
+    private void PlaceDownBlock()
+    {
+        tempGameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        actionMode = true;
     }
 
     [ContextMenu("Take Damage")]
@@ -276,9 +320,26 @@ public class Player : MonoBehaviour
         allowInput = true;
     }
 
-    public void SpendMoney(int _money)
+    public bool SpendMoney(int _money)
     {
-        money -= _money;
+        if (money > 0)
+        {
+            money -= _money;
+            if (money <= 0)
+            {
+                money += _money;
+                Debug.Log("Can't spend any more money");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
     public void GainMoney(int _money)
     {
