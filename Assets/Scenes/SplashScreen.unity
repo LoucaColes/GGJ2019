@@ -649,7 +649,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Campfire Royale
+  m_Text: Stab In The Dark
 --- !u!222 &1084419664
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1088,6 +1088,10 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'Audio By
+
+    Hayley Allen
+
+    Sophie Wickham
 
     Corey Ford'
 --- !u!222 &1154911173

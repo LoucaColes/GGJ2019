@@ -86,3 +86,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: cc47f467e8f74714ea44e3262a187b54, type: 3}
     volume: 0.5
     pitch: 1
+  - name: GBP
+    clip: {fileID: 8300000, guid: 844523bd428bd2b4dbc33d331e419fb9, type: 3}
+    volume: 0.5
+    pitch: 1
