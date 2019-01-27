@@ -2560,7 +2560,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -4999
+  m_SortingOrder: -4996
   m_Sprite: {fileID: 21300000, guid: 4f3cfb1158e4a7340ab37808e0185432, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -15893,8 +15893,8 @@ MonoBehaviour:
   shadowRight: {fileID: 1733293100}
   blockPref: {fileID: 5838936212069776671, guid: 502dd6471d68e344c9219eed44a4f2b5,
     type: 3}
-  actionRate: 0.75
-  acceleration: 0.075
+  actionRate: 0.5
+  acceleration: 0.06
   money: 100
   startHealth: 1
   respawnTime: 3
@@ -35692,8 +35692,8 @@ MonoBehaviour:
   shadowRight: {fileID: 180733709}
   blockPref: {fileID: 5838936212069776671, guid: 502dd6471d68e344c9219eed44a4f2b5,
     type: 3}
-  actionRate: 0.75
-  acceleration: 0.075
+  actionRate: 0.5
+  acceleration: 0.06
   money: 100
   startHealth: 1
   respawnTime: 3
@@ -43504,7 +43504,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -4999
+  m_SortingOrder: -4996
   m_Sprite: {fileID: 21300000, guid: 4f3cfb1158e4a7340ab37808e0185432, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -51205,6 +51205,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8254296769993501487, guid: 01565a34277dd4500912fb56a613a178,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player1
+      objectReference: {fileID: 0}
     - target: {fileID: 6108478488925926838, guid: 01565a34277dd4500912fb56a613a178,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -51268,7 +51273,17 @@ PrefabInstance:
     - target: {fileID: 2681732434717414981, guid: 01565a34277dd4500912fb56a613a178,
         type: 3}
       propertyPath: acceleration
-      value: 0.075
+      value: 0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681732434717414981, guid: 01565a34277dd4500912fb56a613a178,
+        type: 3}
+      propertyPath: actionRate
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 888672396310651517, guid: 01565a34277dd4500912fb56a613a178,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: -4996
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01565a34277dd4500912fb56a613a178, type: 3}
@@ -51393,6 +51408,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: Campfires
       objectReference: {fileID: 0}
+    - target: {fileID: 4526025362599827671, guid: dccea975d2a0b4925bd2e522a7c6e3ed,
+        type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 2100000, guid: db023c9bf0910e84e9618d43d763af39, type: 2}
+    - target: {fileID: 4526025362599827671, guid: dccea975d2a0b4925bd2e522a7c6e3ed,
+        type: 3}
+      propertyPath: normal
+      value: 
+      objectReference: {fileID: 2800000, guid: f5fc895e049f047e2a752a82c767dc1b, type: 3}
+    - target: {fileID: 4526025361162699760, guid: dccea975d2a0b4925bd2e522a7c6e3ed,
+        type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 2100000, guid: db023c9bf0910e84e9618d43d763af39, type: 2}
+    - target: {fileID: 4526025361162699760, guid: dccea975d2a0b4925bd2e522a7c6e3ed,
+        type: 3}
+      propertyPath: normal
+      value: 
+      objectReference: {fileID: 2800000, guid: f5fc895e049f047e2a752a82c767dc1b, type: 3}
+    - target: {fileID: 4526025362001215711, guid: dccea975d2a0b4925bd2e522a7c6e3ed,
+        type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 2100000, guid: db023c9bf0910e84e9618d43d763af39, type: 2}
+    - target: {fileID: 4526025362001215711, guid: dccea975d2a0b4925bd2e522a7c6e3ed,
+        type: 3}
+      propertyPath: normal
+      value: 
+      objectReference: {fileID: 2800000, guid: f5fc895e049f047e2a752a82c767dc1b, type: 3}
+    - target: {fileID: 4526025361052831019, guid: dccea975d2a0b4925bd2e522a7c6e3ed,
+        type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 2100000, guid: db023c9bf0910e84e9618d43d763af39, type: 2}
+    - target: {fileID: 4526025361052831019, guid: dccea975d2a0b4925bd2e522a7c6e3ed,
+        type: 3}
+      propertyPath: normal
+      value: 
+      objectReference: {fileID: 2800000, guid: f5fc895e049f047e2a752a82c767dc1b, type: 3}
     - target: {fileID: 661740633771893266, guid: dccea975d2a0b4925bd2e522a7c6e3ed,
         type: 3}
       propertyPath: campfireAnimation
@@ -52239,7 +52294,12 @@ PrefabInstance:
     - target: {fileID: 9040399978511493511, guid: 8fd7a1f695cbf4c3bb31e928eca00801,
         type: 3}
       propertyPath: acceleration
-      value: 0.075
+      value: 0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 9040399978511493511, guid: 8fd7a1f695cbf4c3bb31e928eca00801,
+        type: 3}
+      propertyPath: actionRate
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 9040399978511493510, guid: 8fd7a1f695cbf4c3bb31e928eca00801,
         type: 3}
@@ -52426,5 +52486,10 @@ PrefabInstance:
       propertyPath: normal_textures.Array.data[27]
       value: 
       objectReference: {fileID: 2800000, guid: 51af5b6486df04795939fafb1ad3c956, type: 3}
+    - target: {fileID: 9040399978123236794, guid: 8fd7a1f695cbf4c3bb31e928eca00801,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: -4996
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fd7a1f695cbf4c3bb31e928eca00801, type: 3}

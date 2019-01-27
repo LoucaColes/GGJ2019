@@ -10,6 +10,8 @@ public class CharacterAnimator : MonoBehaviour
     [SerializeField] private Sprite[] sprites = null;
     [SerializeField] private Texture2D[] normal_textures = null;
     [SerializeField] private Material materialPrefab = null;
+
+    private float delay;
     #endregion
 
     //Called from animator
@@ -29,7 +31,10 @@ public class CharacterAnimator : MonoBehaviour
 
     public void Walk()
     {
-        animator.SetBool("IsWalking", true);
+        if (1 < Time.realtimeSinceStartup - delay)
+        {
+            animator.SetBool("IsWalking", true);
+        }
     }
 
     public void StandUp()
@@ -40,16 +45,27 @@ public class CharacterAnimator : MonoBehaviour
 
     public void Stop()
     {
-        animator.SetBool("IsWalking", false);
+        if (1 < Time.realtimeSinceStartup - delay)
+        {
+            animator.SetBool("IsWalking", false);
+        }
     }
 
     public void Stab()
     {
-        animator.SetTrigger("Stab");
+        if (1 < Time.realtimeSinceStartup - delay)
+        {
+            delay = Time.realtimeSinceStartup;
+            animator.SetTrigger("Stab");
+        }
     }
 
     public void Water()
     {
-        animator.SetTrigger("Water");
+        if (1 < Time.realtimeSinceStartup - delay)
+        {
+            delay = Time.realtimeSinceStartup;
+            animator.SetTrigger("Water");
+        }
     }
 }

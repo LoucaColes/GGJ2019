@@ -8,12 +8,23 @@ public class CampfireAnimation : MonoBehaviour
     [SerializeField] private Animator animator = null;
     [SerializeField] private SpriteRenderer spriteRenderer = null;
     [SerializeField] private Sprite[] sprites = null;
+
+    [SerializeField] private Material prefab = null;
+    [SerializeField] private Texture normal = null;
     #endregion
 
     //Called from animator
     public void SetAnimationIndex(int _index)
     {
         spriteRenderer.sprite = sprites[_index];
+
+        if(_index == 15)
+        {
+            spriteRenderer.material = prefab;
+            spriteRenderer.sprite = sprites[_index];
+            spriteRenderer.material.EnableKeyword("_NORMALMAP");
+            spriteRenderer.material.SetTexture("_BumpMap", normal);
+        }
     }
 
     public void Extinguish()
