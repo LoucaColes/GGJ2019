@@ -13,6 +13,8 @@ public class AudioManager : MonoBehaviour
 
     private IterativeBehaviourPool<AudioSource> audioSourcePool;
 
+    private AudioSource campFireAudioSource;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -63,6 +65,11 @@ public class AudioManager : MonoBehaviour
 
         audioSource.Play();
 
+        if (_name == "Campfire")
+        {
+            campFireAudioSource = audioSource;
+        }
+
         return audioSource;
     }
 
@@ -90,5 +97,13 @@ public class AudioManager : MonoBehaviour
 
         volume = s.volume;
         return s.clip;
+    }
+
+    public void StopCampFireAudio()
+    {
+        if (campFireAudioSource != null && campFireAudioSource.gameObject.activeSelf)
+        {
+            campFireAudioSource.Stop();
+        }
     }
 }

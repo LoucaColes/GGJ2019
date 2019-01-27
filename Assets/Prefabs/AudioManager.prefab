@@ -51,28 +51,28 @@ MonoBehaviour:
     volume: 1
     pitch: 1
   - name: Stab1
-    clip: {fileID: 8300000, guid: 39f97c63726b492459dcb42ac3e5ec44, type: 3}
+    clip: {fileID: 8300000, guid: 8c53fa5ffb0c60c45a17de3f19267702, type: 3}
     volume: 1
     pitch: 1
   - name: Stab2
-    clip: {fileID: 8300000, guid: 2594d37a01316444ba65cc7383d1d1b9, type: 3}
+    clip: {fileID: 8300000, guid: 4ba06d5c5a1bf374a8295fe5bf3ea63a, type: 3}
     volume: 1
     pitch: 1
   - name: Stab3
-    clip: {fileID: 8300000, guid: db2d4d10f24b8e140a93ade49fbc5d48, type: 3}
+    clip: {fileID: 8300000, guid: 9eeb389ecefdcfb43adc836e6f9accf4, type: 3}
     volume: 1
     pitch: 1
   - name: Stab4
-    clip: {fileID: 8300000, guid: 1e5da0b4891f842458c243109d381cb7, type: 3}
+    clip: {fileID: 8300000, guid: d0d51b45a9e647540b934353d8bef65f, type: 3}
     volume: 1
     pitch: 1
   - name: Campfire
     clip: {fileID: 8300000, guid: 843bcde58195cfb409570f0f0c86ee31, type: 3}
-    volume: 0.1
+    volume: 0.3
     pitch: 1
   - name: Atmos
     clip: {fileID: 8300000, guid: ca87649362120d64aa69b25b70c015e8, type: 3}
-    volume: 0.1
+    volume: 0.3
     pitch: 1
   - name: Cricket1
     clip: {fileID: 8300000, guid: fb1e5b5da730dca419b434bb1dace847, type: 3}
@@ -81,4 +81,8 @@ MonoBehaviour:
   - name: Cricket2
     clip: {fileID: 8300000, guid: 9f339efdbe8f5ae46b2a04a7384ff75d, type: 3}
     volume: 1
+    pitch: 1
+  - name: Music
+    clip: {fileID: 8300000, guid: cc47f467e8f74714ea44e3262a187b54, type: 3}
+    volume: 0.5
     pitch: 1
