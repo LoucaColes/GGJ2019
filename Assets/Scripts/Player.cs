@@ -348,8 +348,11 @@ public class Player : MonoBehaviour
 
     private void PlaceDownBlock()
     {
-        tempGameObject.GetComponent<SpriteRenderer>().color = Color.white;
-        actionMode = true;
+        if (!actionMode)
+        {
+            tempGameObject.GetComponent<SpriteRenderer>().color = Color.white;
+            actionMode = true;
+        }
     }
 
     [ContextMenu("Take Damage")]
