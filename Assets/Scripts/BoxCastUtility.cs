@@ -57,7 +57,7 @@ public class BoxCastUtility : MonoBehaviour
         for (int i = 0; i < hits.Length; ++i)
         {
             Campfire campfire = hits[i].transform.GetComponent<Campfire>();
-            if (campfire)
+            if (campfire && hits[i].transform.tag != _ignoreTag)
             {
                 if (campfire.isAlive)
                 {
