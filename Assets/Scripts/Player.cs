@@ -368,6 +368,7 @@ public class Player : MonoBehaviour
             feetCollider2D.enabled = false;
             bodyCollider2D.enabled = false;
             shadow.SetActive(false);
+            allowInput = false;
         }
     }
 
