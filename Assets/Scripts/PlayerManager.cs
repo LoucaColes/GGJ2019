@@ -131,4 +131,19 @@ public class PlayerManager : MonoBehaviour
                 break;
         }
     }
+
+    public int AlivePlayersCount()
+    {
+        int count = 0;
+
+        for (int i = 0; i < alivePlayers.Length; i++)
+        {
+            if (alivePlayers[i] != null)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
 }

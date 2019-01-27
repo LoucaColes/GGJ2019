@@ -34,16 +34,26 @@ public class GameController : MonoBehaviour
 
         mCurrentUpdate_Coroutine = StartCoroutine(Join());
     }
+
+    private void Update()
+    {
+        if (mGameState == GameState.GAMEOVER)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (musicAudioSource != null && musicAudioSource.gameObject.activeSelf)
+                {
+                    musicAudioSource.Stop();
+                }
+                ReloadGame();
+            }
+        }
+    }
     #endregion
 
     private void ReloadGame()
     {
-        if (mCurrentUpdate_Coroutine != null)
-            StopCoroutine(mCurrentUpdate_Coroutine);
-
-        mCurrentUpdate_Coroutine = StartCoroutine(Join());
-
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private IEnumerator Join()
@@ -149,8 +159,7 @@ public class GameController : MonoBehaviour
     /// </summary>
     private void CheckGameOver()
     {
-        return;
-        if(playerManager.numAlivePlayers <= 1)
+        if(playerManager.AlivePlayersCount() <= 1)
         {
             if (mCurrentUpdate_Coroutine != null)
                 StopCoroutine(mCurrentUpdate_Coroutine);
@@ -158,7 +167,7 @@ public class GameController : MonoBehaviour
             mGameState = GameState.GAMEOVER;
             cameraShake.ShakeCamera();
             gameOver.GameOver();
-            ReloadGame();
+
         }
 
     }
