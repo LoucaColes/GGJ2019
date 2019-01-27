@@ -348,8 +348,11 @@ public class Player : MonoBehaviour
 
     private void PlaceDownBlock()
     {
-        tempGameObject.GetComponent<SpriteRenderer>().color = Color.white;
-        actionMode = true;
+        if (!actionMode)
+        {
+            tempGameObject.GetComponent<SpriteRenderer>().color = Color.white;
+            actionMode = true;
+        }
     }
 
     [ContextMenu("Take Damage")]
@@ -368,6 +371,7 @@ public class Player : MonoBehaviour
             feetCollider2D.enabled = false;
             bodyCollider2D.enabled = false;
             shadow.SetActive(false);
+            allowInput = false;
         }
     }
 
